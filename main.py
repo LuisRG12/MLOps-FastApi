@@ -20,12 +20,20 @@ columns = ["age", "sex", "cp", "trtbps", "chol", "fbs", "restecg",
 @app.post("/predict")
 def predict(request: DataPredict):
     try:
+        
         list_data = request.data_to_predict
         df_data = DataFrame(list_data, columns=columns)
-
         prediction = model.predict(df_data)
-        return {"prediction": prediction.tolist()}
+        interpretations = [
+            "Paciente con riesgo de ataque cardiaco" if pred == 1 else "Paciente sin riesgo de ataque cardiaco"
+            for pred in prediction
+        ]
+        return {
+            "prediction": prediction.tolist(),
+            "interpretations": interpretations
+        }
     except Exception as e:
+        # Manejo de errores
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/")
