@@ -8,7 +8,11 @@ model = load("pipeline.joblib")
 app = FastAPI()
 
 class DataPredict(BaseModel):
-    data_to_predict: list[list]  # Lista de listas con las características
+    data_to_predict: list[list] = [
+        [63, 1, 3, 145, 233, 1, 0, 150, 0, 2.3, 0, 0, 1],  # Ejemplo 1
+        [45, 0, 2, 130, 250, 0, 1, 140, 0, 1.5, 1, 2, 2],  # Ejemplo 2
+        [54, 1, 1, 120, 220, 0, 0, 160, 1, 1.8, 2, 1, 3]   # Ejemplo 3
+    ]
 
 columns = ["age", "sex", "cp", "trtbps", "chol", "fbs", "restecg", 
            "thalachh", "exng", "oldpeak", "slp", "caa", "thall"]
